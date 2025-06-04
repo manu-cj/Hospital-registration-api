@@ -1,11 +1,13 @@
 package org.manu.repositories;
 
 import org.manu.models.VisitorReport;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Repository
 public class VisitorReportRepository {
     List<VisitorReport> visitorReportRepository = new ArrayList<>();
 
@@ -15,9 +17,6 @@ public class VisitorReportRepository {
      * @return
      */
     public VisitorReport save(VisitorReport visitorReport) {
-        if (visitorReport.getId() == null) {
-            visitorReport.setId(UUID.randomUUID());
-        }
         visitorReportRepository.add(visitorReport);
         return visitorReport;
     }

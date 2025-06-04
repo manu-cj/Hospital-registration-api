@@ -1,4 +1,4 @@
-package org.manu.mapper;
+package org.manu.mappers;
 
 import org.manu.dto.VisitorReportDTO;
 import org.manu.models.VisitorReport;

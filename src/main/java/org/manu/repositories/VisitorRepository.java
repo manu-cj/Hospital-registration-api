@@ -17,9 +17,6 @@ public class VisitorRepository {
      * @return
      */
     public Visitor save(Visitor visitor) {
-        if (visitor.getId() == null) {
-            visitor.setId(UUID.randomUUID());
-        }
         visitorRepository.add(visitor);
         return visitor;
     }
