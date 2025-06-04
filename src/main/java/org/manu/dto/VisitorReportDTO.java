@@ -16,7 +16,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class VisitorReportDTO {
-    @NotNull(message = "Id is required !")
     private UUID id;
     @NotNull(message = "Le visiteur est requis")
     @Valid //

@@ -14,7 +14,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class VisitorDTO {
-    @NotNull(message = "Id is required !")
     private UUID id;
     @NotBlank(message = "firstname is required")
     private String firstname;

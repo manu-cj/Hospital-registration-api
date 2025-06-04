@@ -5,11 +5,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public class VisitorReportRepository {
-    List<VisitorReport> visitorReportRepository = new ArrayList<>();
+public class ReportRepository {
+    List<VisitorReport> reportRepository = new ArrayList<>();
 
     /**
      * Save a new visitor report
@@ -17,7 +16,8 @@ public class VisitorReportRepository {
      * @return
      */
     public VisitorReport save(VisitorReport visitorReport) {
-        visitorReportRepository.add(visitorReport);
+
+        reportRepository.add(visitorReport);
         return visitorReport;
     }
 }

@@ -2,22 +2,26 @@ package org.manu.services;
 
 import org.manu.dto.VisitorReportDTO;
 import org.manu.mappers.VisitorReportMapper;
+import org.manu.models.Visitor;
 import org.manu.models.VisitorReport;
-import org.manu.repositories.VisitorReportRepository;
+import org.manu.repositories.ReportRepository;
+import org.manu.repositories.VisitorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
 public class VisitorReportService {
-    private final VisitorReportRepository visitorReportRepository;
+    private final ReportRepository reportRepository;
+    private final VisitorRepository visitorRepository;
 
-    public  VisitorReportService(VisitorReportRepository visitorReportRepository) {
-        this.visitorReportRepository = visitorReportRepository;
+    public  VisitorReportService(ReportRepository reportRepository, VisitorRepository visitorRepository) {
+        this.reportRepository = reportRepository;
+        this.visitorRepository = visitorRepository;
     }
 
     /**
-     * Add data in repository with mapper
+     * Add data in reportRepository and visitorRepository with mapper
      * @param dto
      * @return
      */
@@ -25,12 +29,23 @@ public class VisitorReportService {
 
         VisitorReport report = VisitorReportMapper.toModel(dto);
 
+        // add new visitor
+        Visitor visitor = report.getVisitor();
+        if (visitor.getId() == null) {
+            visitor.setId(UUID.randomUUID());
+        }
+        Visitor savedVisitor = visitorRepository.save(visitor);
+
+        //set visitor with id
+        report.setVisitor(savedVisitor);
+
+        //set id for report and add in repository
         if (report.getId() == null) {
             report.setId(UUID.randomUUID());
         }
+        VisitorReport savedReport = reportRepository.save(report);
 
-        VisitorReport saved = visitorReportRepository.save(report);
-        return  VisitorReportMapper.toDTO(saved);
+        return  VisitorReportMapper.toDTO(savedReport);
     }
 
 
