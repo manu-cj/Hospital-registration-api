@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/visitorReport")
@@ -35,6 +36,19 @@ public class VisitorReportController {
     @GetMapping
     public List<VisitorReportDTO> getAll() {
         return visitorReportService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<VisitorReportDTO> getById(@PathVariable UUID id) {
+        return ResponseEntity.ok(visitorReportService.getById(id));
+    }
+
+
+    @GetMapping("/visitor/{lastname}/{firstname}")
+    public List<VisitorReportDTO> getByName(
+            @PathVariable("lastname") String lastname,
+            @PathVariable("firstname") String firstname) {
+        return visitorReportService.getByName(lastname, firstname);
     }
 
 

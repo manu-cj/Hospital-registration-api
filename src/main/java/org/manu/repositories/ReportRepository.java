@@ -58,8 +58,10 @@ public class ReportRepository {
     public List<VisitorReport> findByName(String lastname, String firstname) {
         return reportRepository.stream()
                 .filter(report ->
-                        (report.getVisitor().getFirstname().equals(firstname) && report.getVisitor().getLastname().equals(lastname)) ||
-                                (report.getVisitor().getFirstname().equals(lastname) && report.getVisitor().getLastname().equals(firstname))
+                        (report.getVisitor().getFirstname().startsWith(firstname)
+                                && report.getVisitor().getLastname().startsWith(lastname))
+                                || (report.getVisitor().getFirstname().startsWith(lastname)
+                                && report.getVisitor().getLastname().startsWith(firstname))
                 )
                 .toList();
     }

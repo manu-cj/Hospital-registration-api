@@ -59,6 +59,21 @@ public class VisitorReportService {
                 .collect(Collectors.toList());
     }
 
+    public VisitorReportDTO getById(UUID id) {
+        VisitorReport report = reportRepository.findById(id);
+        if (report == null) {
+            return null;
+        }
+
+        return VisitorReportMapper.toDTO(report);
+    }
+
+    public List<VisitorReportDTO> getByName(String lastname, String firstname) {
+        return reportRepository.findByName(lastname, firstname).stream()
+                .map(VisitorReportMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
 
 
 
