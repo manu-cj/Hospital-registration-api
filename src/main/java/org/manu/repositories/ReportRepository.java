@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class ReportRepository {
@@ -26,5 +27,40 @@ public class ReportRepository {
      */
     public List<VisitorReport> findAll() {
         return reportRepository;
+    }
+
+
+    /**
+     * Verify if report exist
+     * @param id data
+     * @return boolean
+     */
+    public boolean existsById(UUID id) {
+        return reportRepository.stream()
+                .anyMatch(report -> report.getId().equals(id));
+    }
+
+
+    public VisitorReport findById(UUID id) {
+        return reportRepository.stream()
+                .filter(report -> report.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
+     * Searches for visitor reports matching a given first name and last name.
+     * The results also include cases where the first name and last name are swapped.
+     * @param lastname the visitor's last name
+     * @param firstname the visitor's first name
+     * @return the list of reports matching the criteria
+     */
+    public List<VisitorReport> findByName(String lastname, String firstname) {
+        return reportRepository.stream()
+                .filter(report ->
+                        (report.getVisitor().getFirstname().equals(firstname) && report.getVisitor().getLastname().equals(lastname)) ||
+                                (report.getVisitor().getFirstname().equals(lastname) && report.getVisitor().getLastname().equals(firstname))
+                )
+                .toList();
     }
 }
