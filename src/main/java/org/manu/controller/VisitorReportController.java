@@ -61,7 +61,7 @@ public class VisitorReportController {
             @PathVariable("firstname") String firstname) {
         return visitorReportService.getByName(lastname, firstname);
         }
-    }
+
 
     // Deletes a visitor report by its unique identifier
     @DeleteMapping("/{id}")
