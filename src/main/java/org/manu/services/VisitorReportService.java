@@ -74,6 +74,13 @@ public class VisitorReportService {
                 .collect(Collectors.toList());
     }
 
+    public boolean deleteById(UUID id) {
+        if (!reportRepository.existsById(id)) {
+            return false;
+        }
+         return reportRepository.deleteById(id);
+    }
+
 
 
 
