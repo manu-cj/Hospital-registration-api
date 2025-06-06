@@ -12,12 +12,19 @@ public class ReportRepository {
 
     /**
      * Save a new visitor report
-     * @param visitorReport
-     * @return
+     * @param visitorReport data
+     * @return visitorReport
      */
     public VisitorReport save(VisitorReport visitorReport) {
-
         reportRepository.add(visitorReport);
         return visitorReport;
+    }
+
+    /**
+     *
+     * @return repository with all reports
+     */
+    public List<VisitorReport> findAll() {
+        return reportRepository;
     }
 }

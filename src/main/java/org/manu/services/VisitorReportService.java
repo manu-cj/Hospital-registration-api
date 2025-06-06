@@ -8,7 +8,9 @@ import org.manu.repositories.ReportRepository;
 import org.manu.repositories.VisitorRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class VisitorReportService {
@@ -22,11 +24,10 @@ public class VisitorReportService {
 
     /**
      * Add data in reportRepository and visitorRepository with mapper
-     * @param dto
-     * @return
+     * @param dto data
+     * @return data in dto
      */
     public VisitorReportDTO createReport(VisitorReportDTO dto) {
-
         VisitorReport report = VisitorReportMapper.toModel(dto);
 
         // add new visitor
@@ -47,6 +48,19 @@ public class VisitorReportService {
 
         return  VisitorReportMapper.toDTO(savedReport);
     }
+
+    /**
+     *
+     * @return all reports
+     */
+    public List<VisitorReportDTO> getAll() {
+        return reportRepository.findAll().stream()
+                .map(VisitorReportMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+
+
 
 
 }

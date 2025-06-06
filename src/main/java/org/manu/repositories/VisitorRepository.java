@@ -13,8 +13,8 @@ public class VisitorRepository {
 
     /**
      * Save a new visitor
-     * @param visitor
-     * @return
+     * @param visitor data
+     * @return visitor
      */
     public Visitor save(Visitor visitor) {
         visitorRepository.add(visitor);

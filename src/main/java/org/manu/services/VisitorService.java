@@ -18,8 +18,8 @@ public class VisitorService {
 
     /**
      * Add data in repository with mapper
-     * @param dto
-     * @return
+     * @param dto data
+     * @return data in dto
      */
     public VisitorDTO createVisitor(VisitorDTO dto) {
         Visitor visitor = VisitorMapper.toModel(dto);
