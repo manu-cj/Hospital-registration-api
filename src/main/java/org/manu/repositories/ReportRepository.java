@@ -65,4 +65,8 @@ public class ReportRepository {
                 )
                 .toList();
     }
+
+    public boolean deleteById(UUID id) {
+        return reportRepository.removeIf(report -> report.getId().equals(id));
+    }
 }
