@@ -46,6 +46,8 @@ public class SecurityConfig {
                         .requestMatchers("/patients").permitAll()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
+                        .requestMatchers("public").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 // Active la page de login par défaut

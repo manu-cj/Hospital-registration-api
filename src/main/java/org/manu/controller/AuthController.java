@@ -34,4 +34,24 @@ public class AuthController {
         // Ou retourner un message (si @RestController)
         return "registration page"; // ou "register" pour une vue Thymeleaf
     }
+
+    @GetMapping("/public")
+    public String publicPage() {
+        return "This is a public page (accessible to everyone).";
+    }
+
+    @GetMapping("/user/dashboard")
+    public String userDashboard() {
+        return "Welcome to the User Dashboard! You have ROLE_USER or ROLE_ADMIN.";
+    }
+
+    @GetMapping("/admin/settings")
+    public String adminSettings() {
+        return "Welcome to the Admin Settings! You have ROLE_ADMIN.";
+    }
+
+    @GetMapping("/admin/users")
+    public String adminUsers() {
+        return "List of users (Admin only).";
+    }
 }
