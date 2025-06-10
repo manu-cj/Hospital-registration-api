@@ -28,12 +28,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // Désactive CSRF pour les chemins /h2-console/** ET /register
+                // Désactive CSRF pour les chemins
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**"),
                                 AntPathRequestMatcher.antMatcher("/register"),
                                 AntPathRequestMatcher.antMatcher("/patients"),
-                                AntPathRequestMatcher.antMatcher("/error"))) // Ajoutez /register ici !
+                                AntPathRequestMatcher.antMatcher("/error")))
 
                 // Désactive la protection X-Frame-Options pour H2 Console
                 .headers(headers -> headers
