@@ -31,7 +31,9 @@ public class SecurityConfig {
                 // Désactive CSRF pour les chemins /h2-console/** ET /register
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**"),
-                                AntPathRequestMatcher.antMatcher("/register"))) // Ajoutez /register ici !
+                                AntPathRequestMatcher.antMatcher("/register"),
+                                AntPathRequestMatcher.antMatcher("/patients"),
+                                AntPathRequestMatcher.antMatcher("/error"))) // Ajoutez /register ici !
 
                 // Désactive la protection X-Frame-Options pour H2 Console
                 .headers(headers -> headers
@@ -41,6 +43,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/patients").permitAll()
+                        .requestMatchers("/error").permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                         .anyRequest().authenticated()
                 )
