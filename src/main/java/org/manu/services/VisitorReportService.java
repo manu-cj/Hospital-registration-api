@@ -60,7 +60,7 @@ public class VisitorReportService {
     }
 
     public VisitorReportDTO getById(UUID id) {
-        VisitorReport report = reportRepository.findById(id);
+        VisitorReport report = reportRepository.findById(id).orElse(null);
         if (report == null) {
             return null;
         }
@@ -69,7 +69,7 @@ public class VisitorReportService {
     }
 
     public List<VisitorReportDTO> getByName(String lastname, String firstname) {
-        return reportRepository.findByName(lastname, firstname).stream()
+        return reportRepository.findByVisitor_FirstnameStartingWithAndVisitor_LastnameStartingWith(lastname, firstname).stream()
                 .map(VisitorReportMapper::toDTO)
                 .collect(Collectors.toList());
     }
@@ -78,7 +78,8 @@ public class VisitorReportService {
         if (!reportRepository.existsById(id)) {
             return false;
         }
-         return reportRepository.deleteById(id);
+        reportRepository.deleteById(id);
+        return true;
     }
 
 

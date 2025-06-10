@@ -3,6 +3,8 @@ package org.manu.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,8 +14,8 @@ import lombok.*;
 @ToString(of =  {"id", "name"})
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue
+    private UUID id;
 
     @Column(unique = true, nullable = false)
     private String name;

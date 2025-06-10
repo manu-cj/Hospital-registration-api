@@ -1,6 +1,8 @@
 package org.manu.controller;
 
+import org.manu.models.Role;
 import org.manu.models.User;
+import org.manu.repositories.RoleRepository;
 import org.manu.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +18,24 @@ public class AuthController {
     private UserRepository userRepository;
 
     @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user ) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        Role defaultRole = roleRepository.findByName("ROLE_USER")
+                .orElseThrow(() -> new RuntimeException("Default role 'ROLE_USER' not found. Please ensure it exists."));
+
+        user.addRole(defaultRole);
+
         userRepository.save(user);
 
         return ResponseEntity.ok("User registered");
-
     }
 
     @GetMapping("/register") // Ou @PostMapping, selon votre besoin

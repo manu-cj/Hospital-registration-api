@@ -33,7 +33,8 @@ public class SecurityConfig {
                         .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**"),
                                 AntPathRequestMatcher.antMatcher("/register"),
                                 AntPathRequestMatcher.antMatcher("/patients"),
-                                AntPathRequestMatcher.antMatcher("/error")))
+                                AntPathRequestMatcher.antMatcher("/error"),
+                                AntPathRequestMatcher.antMatcher("/api/visitorReport")))
 
                 // Désactive la protection X-Frame-Options pour H2 Console
                 .headers(headers -> headers
@@ -45,6 +46,7 @@ public class SecurityConfig {
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/patients").permitAll()
                         .requestMatchers("/error").permitAll()
+                        .requestMatchers("api/visitorReport").permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                         .requestMatchers("public").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -14,8 +15,8 @@ import java.util.Set;
 @NoArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue
+    private UUID id;
     @Column(unique = true, nullable = false)
     private String username;
     private String password;

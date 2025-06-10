@@ -3,12 +3,14 @@ package org.manu.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class PatientDTO {
-    private Long id;
+    private UUID id;
     @NotBlank(message = "nom is required")
     private String nom;
     @NotBlank(message = "    private String prenom;\n is required")
