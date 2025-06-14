@@ -1,48 +1,33 @@
 package org.manu.controller;
 
-import org.manu.models.Role;
-import org.manu.models.User;
-import org.manu.repositories.RoleRepository;
-import org.manu.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.manu.dto.UserRequestDTO;
+import org.manu.dto.UserResponseDTO;
+import org.manu.services.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@AllArgsConstructor
 public class AuthController {
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
+   private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody User user ) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public ResponseEntity<UserResponseDTO> register(@Valid @RequestBody UserRequestDTO userRequestDTO ) {
+        UserResponseDTO registeredUser  = userService.createUser(userRequestDTO);
+        return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
 
-        Role defaultRole = roleRepository.findByName("ROLE_USER")
-                .orElseThrow(() -> new RuntimeException("Default role 'ROLE_USER' not found. Please ensure it exists."));
-
-        user.addRole(defaultRole);
-
-        userRepository.save(user);
-
-        return ResponseEntity.ok("User registered");
     }
 
-    @GetMapping("/register") // Ou @PostMapping, selon votre besoin
+    @GetMapping("/register")
     public String showRegistrationForm() {
-        // Logique pour afficher la page d'inscription (si @Controller)
-        // Ou retourner un message (si @RestController)
-        return "registration page"; // ou "register" pour une vue Thymeleaf
+
+        return "registration page";
     }
 
     @GetMapping("/public")

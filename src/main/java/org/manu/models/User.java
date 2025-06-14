@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -20,6 +21,10 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
     private String password;
+    private String firstname;
+    private String lastname;
+    private String email;
+    private LocalDateTime registrationDate;
 
 
     @ManyToMany(fetch = FetchType.EAGER)
