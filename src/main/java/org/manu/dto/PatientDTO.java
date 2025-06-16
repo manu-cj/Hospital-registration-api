@@ -17,4 +17,6 @@ public class PatientDTO {
     private String prenom;
     @NotBlank(message = "email is required")
     private String email;
+
+    private ChambreDTO chambre;
 }

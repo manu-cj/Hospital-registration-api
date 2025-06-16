@@ -24,5 +24,9 @@ public class Patient {
     private String nom;
     private String prenom;
     private String email;
+
+    @ManyToOne
+    @JoinColumn(name = "chambre_id")
+    private Chambre chambre;
 }
 

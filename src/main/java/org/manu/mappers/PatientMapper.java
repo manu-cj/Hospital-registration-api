@@ -16,6 +16,7 @@ public class PatientMapper {
                 .nom(entity.getNom())
                 .prenom(entity.getPrenom())
                 .email(entity.getEmail())
+                .chambre(entity.getChambre() != null ? ChambreMapper.toDto(entity.getChambre()) : null)
                 .build();
     }
 
@@ -30,6 +31,7 @@ public class PatientMapper {
                 .nom(dto.getNom())
                 .prenom(dto.getPrenom())
                 .email(dto.getEmail())
+                .chambre(dto.getChambre() != null ? ChambreMapper.toEntity(dto.getChambre()) : null)
                 .build();
     }
 }
