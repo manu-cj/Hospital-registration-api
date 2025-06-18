@@ -32,16 +32,26 @@ public class ChambreAssignementService {
     }
 
 
-    public ChambreAssignementDTO changeChambre(UUID patientId, ChambreAssignementDTO newAssignementDto) {
+    //public ChambreAssignementDTO changeChambre(UUID patientId, ChambreAssignementDTO newAssignementDto) {
+    //    ChambreAssignement active = chambreAssignementRepository.findByPatientIdAndEndDateIsNull(patientId)
+    //            .orElseThrow(() -> new RuntimeException("active assignment not found for this patient."));
+
+    //    active.setEndDate(LocalDateTime.now());
+    //    chambreAssignementRepository.save(active);
+
+    //    ChambreAssignement newAssignment = ChambreAssignementMapper.toEntity(newAssignementDto);
+    //    ChambreAssignement saved = chambreAssignementRepository.save(newAssignment);
+    //    return ChambreAssignementMapper.toDto(saved);
+    //}
+
+    public ChambreAssignementDTO leaveChamber(UUID patientId) {
         ChambreAssignement active = chambreAssignementRepository.findByPatientIdAndEndDateIsNull(patientId)
                 .orElseThrow(() -> new RuntimeException("active assignment not found for this patient."));
 
         active.setEndDate(LocalDateTime.now());
         chambreAssignementRepository.save(active);
 
-        ChambreAssignement newAssignment = ChambreAssignementMapper.toEntity(newAssignementDto);
-        ChambreAssignement saved = chambreAssignementRepository.save(newAssignment);
-        return ChambreAssignementMapper.toDto(saved);
+        return ChambreAssignementMapper.toDto(active);
     }
 
 

@@ -46,10 +46,13 @@ public class PatientController {
                 chambre.setAvailable(false);
                 created.setChambre(chambre);
 
+
                 // Prepare the room assignment DTO
                 ChambreAssignementDTO assignmentDTO = new ChambreAssignementDTO();
                 assignmentDTO.setPatient(created);
                 assignmentDTO.setChambre(chambre);
+
+
 
                 // Create the room assignment
                 ChambreAssignementDTO createdAssignment = chambreAssignementService.create(assignmentDTO);
@@ -104,12 +107,16 @@ public class PatientController {
             patient.setChambre(newChamber);
             PatientDTO updatedPatient = patientService.updateChambre(patientId, newChambreId);
 
+            // leave chamber
+            chambreAssignementService.leaveChamber(patientId);
+
             // create new assignment
             ChambreAssignementDTO assignmentDTO = new ChambreAssignementDTO();
             assignmentDTO.setChambre(newChamber);
             assignmentDTO.setPatient(patient);
 
-            ChambreAssignementDTO assignment = chambreAssignementService.changeChambre(patientId, assignmentDTO);
+            // create new assignment
+            chambreAssignementService.create(assignmentDTO);
 
             return ResponseEntity.ok(updatedPatient);
         }

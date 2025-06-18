@@ -48,4 +48,14 @@ public class PatientService {
         Patient updated = repository.save(patient);
         return  PatientMapper.toDto(updated);
     }
+
+    public PatientDTO leaveChamber(UUID patientId, UUID chambreId) {
+        Patient patient = repository.findById(patientId)
+                .orElseThrow(() -> new RuntimeException("Patient not found"));
+
+        Chambre chambre = chambreRepository.findById(chambreId)
+                .orElseThrow(() -> new RuntimeException("Chambre not found"));
+
+
+    }
 }
