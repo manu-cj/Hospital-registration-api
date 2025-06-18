@@ -43,4 +43,12 @@ public class ChambreService {
         Chambre updated = chambreRepository.save(chambre);
         return  ChambreMapper.toDto(updated);
     }
+
+    public Boolean deleteById(UUID id) {
+        if (!chambreRepository.existsById(id)) {
+            return false;
+        }
+        chambreRepository.deleteById(id);
+        return true;
+    }
 }

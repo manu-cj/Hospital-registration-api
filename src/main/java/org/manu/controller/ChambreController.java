@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/chambre")
@@ -29,5 +30,16 @@ public class ChambreController {
     @GetMapping
     public List<ChambreDTO> getAll() {
         return chambreService.findAll();
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> delete(@RequestParam UUID id) {
+        boolean deleted = chambreService.deleteById(id);
+
+        if (deleted) {
+            return ResponseEntity.status(201).body("chamber deleted with success");
+        } else {
+            return ResponseEntity.status(404).body("chamber not found !");
+        }
     }
 }
