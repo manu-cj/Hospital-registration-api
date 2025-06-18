@@ -3,6 +3,8 @@ package org.manu.mappers;
 import org.manu.dto.ChambreDTO;
 import org.manu.models.Chambre;
 
+import java.util.UUID;
+
 public class ChambreMapper {
 
     /**

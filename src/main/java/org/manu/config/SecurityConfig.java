@@ -34,6 +34,7 @@ public class SecurityConfig {
                                 AntPathRequestMatcher.antMatcher("/register"),
                                 AntPathRequestMatcher.antMatcher("/patients"),
                                 AntPathRequestMatcher.antMatcher("/error"),
+                                AntPathRequestMatcher.antMatcher("/chambre"),
                                 AntPathRequestMatcher.antMatcher("/api/visitorReport")))
 
                 // Désactive la protection X-Frame-Options pour H2 Console
@@ -46,6 +47,7 @@ public class SecurityConfig {
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/patients").permitAll()
                         .requestMatchers("/error").permitAll()
+                        .requestMatchers("/chambre").permitAll()
                         .requestMatchers("api/visitorReport").permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                         .requestMatchers("public").hasAnyRole("USER", "ADMIN")

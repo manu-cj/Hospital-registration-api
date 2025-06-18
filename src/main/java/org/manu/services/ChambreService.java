@@ -18,6 +18,7 @@ public class ChambreService {
     public ChambreDTO create(ChambreDTO dto) {
         Chambre chambre = ChambreMapper.toEntity(dto);
         Chambre saved = chambreRepository.save(chambre);
+
         return ChambreMapper.toDto(saved);
     }
 

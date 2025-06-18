@@ -21,7 +21,6 @@ public class ChambreAssignementDTO {
 
    private ChambreDTO chambre;
 
-    @NotNull(message = "The start date is required")
     private LocalDateTime startDate;
 
     private LocalDateTime endDate;

@@ -17,13 +17,13 @@ import java.util.UUID;
 @Builder
 public class VisitorReportDTO {
     private UUID id;
-    @NotNull(message = "Le visiteur est requis")
+    @NotNull(message = "The visitor is required")
     @Valid //
     private VisitorDTO visitor;
-    @NotBlank(message = "Le nom du docteur est requis")
+    @NotBlank(message = "The doctor name is required")
     private String doctorName;
-    @NotBlank(message = "Le motif est requis")
+    @NotBlank(message = "The motif is required")
     private String purpose;
-    @NotNull(message = "La date est requise")
+    @NotNull(message = "The date is required")
     private LocalDateTime timestamp;
 }

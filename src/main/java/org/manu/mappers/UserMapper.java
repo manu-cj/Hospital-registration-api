@@ -4,9 +4,11 @@ import org.manu.dto.UserRequestDTO;
 import org.manu.dto.UserResponseDTO;
 import org.manu.models.User;
 import org.manu.models.Role;
+import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
+@Component
 public class UserMapper {
     public User toEntity(UserRequestDTO requestDTO) {
         if (requestDTO == null) {
