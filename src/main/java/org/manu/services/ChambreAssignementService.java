@@ -8,6 +8,7 @@ import org.manu.repositories.ChambreAssignementRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -52,6 +53,12 @@ public class ChambreAssignementService {
         chambreAssignementRepository.save(active);
 
         return ChambreAssignementMapper.toDto(active);
+    }
+
+    public List<ChambreAssignementDTO> findAll() {
+        return chambreAssignementRepository.findAll().stream()
+                .map(ChambreAssignementMapper::toDto)
+                .toList();
     }
 
 

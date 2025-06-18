@@ -28,8 +28,12 @@ public class ChambreController {
     }
 
     @GetMapping
-    public List<ChambreDTO> getAll() {
-        return chambreService.findAll();
+    public ResponseEntity<?> getAll() {
+        List<ChambreDTO> chamber = chambreService.findAll();
+        if (chamber.isEmpty()) {
+            return  ResponseEntity.status(404).body("Chamber is empty");
+        }
+        return ResponseEntity.ok(chamber);
     }
 
     @DeleteMapping
@@ -37,9 +41,18 @@ public class ChambreController {
         boolean deleted = chambreService.deleteById(id);
 
         if (deleted) {
-            return ResponseEntity.status(201).body("chamber deleted with success");
+            return ResponseEntity.status(200).body("chamber deleted with success");
         } else {
             return ResponseEntity.status(404).body("chamber not found !");
         }
+    }
+
+    @GetMapping("/assignment")
+    public ResponseEntity<?> getAllAssignment() {
+        List<ChambreAssignementDTO> assignments = chambreAssignementService.findAll();
+        if (assignments.isEmpty()) {
+            return ResponseEntity.status(404).body("Assignment is empty");
+        }
+        return ResponseEntity.ok(assignments);
     }
 }
