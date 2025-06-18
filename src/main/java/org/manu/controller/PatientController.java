@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/patients")
@@ -33,7 +34,7 @@ public class PatientController {
 
             // Check if the room is available
             if (!chambre.isAvailable()) {
-                throw new IllegalStateException("This chamber is not disponible.");
+                throw new IllegalStateException("This chamber is not available.");
             } else {
                 // Create the patient
                 PatientDTO created = patientService.create(dto);
@@ -74,12 +75,50 @@ public class PatientController {
             // Handle unexpected errors
             return ResponseEntity
                     .status(500)
-                    .body(new ApiResponse("Internal error : " + e.getMessage()));
+                    .body(new ApiResponse("Internal error  : " + e.getMessage()));
         }
     }
 
     @GetMapping
     public ResponseEntity<List<PatientDTO>> getAll() {
         return ResponseEntity.ok(patientService.findAll());
+    }
+
+    @PutMapping("/change")
+    public ResponseEntity<?> Change(@RequestParam UUID patientId, @RequestParam UUID newChambreId) {
+        try {
+            PatientDTO patient = patientService.findById(patientId);
+            ChambreDTO oldChamber = patient.getChambre();
+            ChambreDTO newChamber = chambreService.findById(newChambreId);
+
+            if (!newChamber.isAvailable()) {
+                throw new IllegalStateException("The new chamber is not available");
+            }
+
+            // Update availability for old chamber and new chamber
+            chambreService.updateAvailability(oldChamber.getId(), true);
+            chambreService.updateAvailability(newChamber.getId(), false);
+
+            // update patient
+            newChamber.setAvailable(false);
+            patient.setChambre(newChamber);
+            PatientDTO updatedPatient = patientService.updateChambre(patientId, newChambreId);
+
+            // create new assignment
+            ChambreAssignementDTO assignmentDTO = new ChambreAssignementDTO();
+            assignmentDTO.setChambre(newChamber);
+            assignmentDTO.setPatient(patient);
+
+            ChambreAssignementDTO assignment = chambreAssignementService.changeChambre(patientId, assignmentDTO);
+
+            return ResponseEntity.ok(updatedPatient);
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiResponse("Invalid data  : " + e.getMessage()));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(409).body(new ApiResponse("Conflict  : " + e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new ApiResponse("Internal error  : " + e.getMessage()));
+        }
     }
 }

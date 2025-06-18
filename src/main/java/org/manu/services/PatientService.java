@@ -31,6 +31,12 @@ public class PatientService {
                 .toList();
     }
 
+    public PatientDTO findById(UUID id) {
+        return repository.findById(id)
+                .map(PatientMapper::toDto)
+                .orElseThrow(() -> new RuntimeException("Patient not found"));
+    }
+
     public PatientDTO updateChambre(UUID patientId, UUID chambreId) {
         Patient patient = repository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));

@@ -32,9 +32,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**"),
                                 AntPathRequestMatcher.antMatcher("/register"),
-                                AntPathRequestMatcher.antMatcher("/patients"),
+                                AntPathRequestMatcher.antMatcher("/patients/**"),
                                 AntPathRequestMatcher.antMatcher("/error"),
-                                AntPathRequestMatcher.antMatcher("/chambre"),
+                                AntPathRequestMatcher.antMatcher("/chambre/**"),
                                 AntPathRequestMatcher.antMatcher("/api/visitorReport")))
 
                 // Désactive la protection X-Frame-Options pour H2 Console
@@ -45,9 +45,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/patients").permitAll()
+                        .requestMatchers("/patients/**").permitAll()
                         .requestMatchers("/error").permitAll()
-                        .requestMatchers("/chambre").permitAll()
+                        .requestMatchers("/chambre/**").permitAll()
                         .requestMatchers("api/visitorReport").permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                         .requestMatchers("public").hasAnyRole("USER", "ADMIN")
