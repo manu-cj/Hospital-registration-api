@@ -28,40 +28,54 @@ public class PatientController {
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody PatientDTO dto) {
         try {
+            // Retrieve the room by its ID
             ChambreDTO chambre = chambreService.findById(dto.getChambre().getId());
+
+            // Check if the room is available
             if (!chambre.isAvailable()) {
                 throw new IllegalStateException("This chamber is not disponible.");
+            } else {
+                // Create the patient
+                PatientDTO created = patientService.create(dto);
+
+                // Update the room's availability to false in database
+                chambreService.updateAvailability(chambre.getId(), false);
+
+                // Update the local chambre object and set it to the created patient
+                chambre.setAvailable(false);
+                created.setChambre(chambre);
+
+                // Prepare the room assignment DTO
+                ChambreAssignementDTO assignmentDTO = new ChambreAssignementDTO();
+                assignmentDTO.setPatient(created);
+                assignmentDTO.setChambre(chambre);
+
+                // Create the room assignment
+                ChambreAssignementDTO createdAssignment = chambreAssignementService.create(assignmentDTO);
+
+                // Return a response with the created assignment and location header
+                return ResponseEntity
+                        .created(URI.create("/patients/" + created.getId()))
+                        .body(createdAssignment);
             }
-
-            PatientDTO created = patientService.create(dto);
-
-            chambreService.updateAvailability(chambre.getId(), false);
-
-            ChambreAssignementDTO assignmentDTO = new ChambreAssignementDTO();
-            assignmentDTO.setPatient(created);
-            assignmentDTO.setChambre(chambre);
-
-            ChambreAssignementDTO createdAssignment = chambreAssignementService.create(assignmentDTO);
-
-            return ResponseEntity
-                    .created(URI.create("/patients/" + created.getId()))
-                    .body(created);
         }
         catch (IllegalArgumentException e) {
+            // Handle invalid data
             return ResponseEntity
                     .badRequest()
                     .body(new ApiResponse("Invalid data  : " + e.getMessage()));
         }
         catch (IllegalStateException e) {
+            // Handle conflict (e.g., room not available)
             return ResponseEntity
                     .status(409)
                     .body(new ApiResponse("Conflict  : " + e.getMessage()));
         } catch (Exception e) {
+            // Handle unexpected errors
             return ResponseEntity
                     .status(500)
                     .body(new ApiResponse("Internal error : " + e.getMessage()));
         }
-
     }
 
     @GetMapping
