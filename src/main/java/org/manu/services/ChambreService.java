@@ -37,6 +37,12 @@ public class ChambreService {
                 .orElse(null);
     }
 
+    public List<ChambreDTO> findByAvailable(boolean available) {
+        return chambreRepository.findByAvailable(available).stream()
+                .map(ChambreMapper::toDto)
+                .toList();
+    }
+
     @Transactional
     public ChambreDTO updateAvailability(UUID id, boolean availability) {
         Chambre chambre = chambreRepository.findById(id)

@@ -73,4 +73,13 @@ public class ChambreController {
         }
         return ResponseEntity.ok(chamber);
     }
+
+    @GetMapping("/{available}")
+    public ResponseEntity<?> getByAvailable(@PathVariable boolean available) {
+        List<ChambreDTO> chamber = chambreService.findByAvailable(available);
+        if (chamber == null) {
+            return ResponseEntity.status(404).body("Not available rooms found");
+        }
+        return ResponseEntity.ok(chamber);
+    }
 }
