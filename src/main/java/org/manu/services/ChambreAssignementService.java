@@ -20,13 +20,7 @@ public class ChambreAssignementService {
 
     @Transactional
     public ChambreAssignementDTO create(ChambreAssignementDTO dto) {
-        boolean alreadyAssigned = chambreAssignementRepository
-                .findByPatientId(dto.getPatient().getId())
-                .isPresent();
 
-        if (alreadyAssigned) {
-            throw new RuntimeException("This patient already have a assignation.");
-        }
 
         ChambreAssignement chambreAssignement = ChambreAssignementMapper.toEntity(dto);
         chambreAssignement.setStartDate(LocalDateTime.now());
