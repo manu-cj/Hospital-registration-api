@@ -13,7 +13,7 @@ public class PatientDTO {
     private UUID id;
     @NotBlank(message = "nom is required")
     private String nom;
-    @NotBlank(message = "    private String prenom;\n is required")
+    @NotBlank(message = "prenom is required")
     private String prenom;
     @NotBlank(message = "email is required")
     private String email;

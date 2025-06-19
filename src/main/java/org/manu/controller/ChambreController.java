@@ -2,11 +2,8 @@ package org.manu.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.manu.dto.ChambreAssignementDTO;
 import org.manu.dto.ChambreDTO;
-import org.manu.services.ChambreAssignementService;
 import org.manu.services.ChambreService;
-import org.manu.services.PatientService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +14,7 @@ import java.util.UUID;
 @RequestMapping("/chambre")
 @RequiredArgsConstructor
 public class ChambreController {
-    private final ChambreAssignementService chambreAssignementService;
     private final ChambreService chambreService;
-    private final PatientService patientService;
 
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody ChambreDTO dto) {
@@ -57,32 +52,4 @@ public class ChambreController {
         return ResponseEntity.ok(chamber);
     }
 
-
-    /* Path for assignment*/
-    @GetMapping("/assignment")
-    public ResponseEntity<?> getAllAssignment() {
-        List<ChambreAssignementDTO> assignments = chambreAssignementService.findAll();
-        if (assignments.isEmpty()) {
-            return ResponseEntity.status(404).body("Assignment is empty");
-        }
-        return ResponseEntity.ok(assignments);
-    }
-
-    @GetMapping("/{number}")
-    public ResponseEntity<?> getByNumber(@PathVariable String number) {
-        List<ChambreAssignementDTO> chamber = chambreAssignementService.findByNumberChamber(number);
-        if (chamber == null) {
-            return ResponseEntity.status(404).body("Chamber not found");
-        }
-        return  ResponseEntity.ok(chamber);
-    }
-
-    @GetMapping("/{patientId}")
-    public ResponseEntity<?> getByPatient(@PathVariable UUID id) {
-        List<ChambreAssignementDTO> chamber = chambreAssignementService.findByPatient(id);
-        if (chamber == null) {
-            return ResponseEntity.status(404).body("We don't have a assignment with this patient");
-        }
-        return ResponseEntity.ok(chamber);
-    }
 }
