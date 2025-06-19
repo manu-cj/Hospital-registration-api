@@ -10,8 +10,11 @@ import java.util.UUID;
 
 @Repository
 public interface ChambreAssignementRepository extends JpaRepository<ChambreAssignement, UUID> {
+
     Optional<ChambreAssignement> findByPatientIdAndEndDateIsNull(UUID patientId);
+
     Optional<ChambreAssignement> findByPatientId(UUID patientId);
+
     boolean existsByPatientId(UUID patientId);
 
     List<ChambreAssignement> findByChambreNumber(String number);

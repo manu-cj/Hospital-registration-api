@@ -128,4 +128,22 @@ public class PatientController {
             return ResponseEntity.status(500).body(new ApiResponse("Internal error  : " + e.getMessage()));
         }
     }
+
+    @GetMapping("search")
+    public ResponseEntity<?> getPatientByFirstnameAndLastname(@RequestParam String firstname, @RequestParam String lastname) {
+        List<PatientDTO> patients = patientService.getByFirstnameAndLastname(firstname.toLowerCase(), lastname.toLowerCase());
+        if (patients == null) {
+            return ResponseEntity.status(404).body("Not patient with this firstname and lastname.");
+        }
+        return ResponseEntity.ok(patients);
+    }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> getByEmail(@PathVariable String email) {
+        PatientDTO patient = patientService.getByEmail(email);
+        if (patient == null) {
+            return ResponseEntity.status(404).body("Patient not found.");
+        }
+        return ResponseEntity.ok(patient);
+    }
 }

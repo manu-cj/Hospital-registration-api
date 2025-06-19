@@ -52,5 +52,18 @@ public class PatientService {
         return  PatientMapper.toDto(updated);
     }
 
+    @Transactional
+    public List<PatientDTO> getByFirstnameAndLastname(String firstname, String lastname) {
+        return repository.findByPrenomStartingWithAndNomStartingWith(firstname, lastname).stream()
+                .map(PatientMapper::toDto)
+                .toList();
+    }
+
+    public PatientDTO getByEmail(String email) {
+        return repository.findByEmail(email)
+                .map(PatientMapper::toDto)
+                .orElseThrow(() -> new RuntimeException("Patient not found"));
+    }
+
 
 }
