@@ -19,7 +19,7 @@ public class AssignmentController {
 
     private final ChambreAssignementService chambreAssignementService;
 
-    @GetMapping("/assignment")
+    @GetMapping("/")
     public ResponseEntity<?> getAllAssignment() {
         List<ChambreAssignementDTO> assignments = chambreAssignementService.findAll();
         if (assignments.isEmpty()) {
