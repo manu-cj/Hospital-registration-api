@@ -8,6 +8,7 @@ import org.manu.models.Patient;
 import org.manu.repositories.ChambreRepository;
 import org.manu.repositories.PatientRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +20,7 @@ public class PatientService {
     private final PatientRepository repository;
     private final ChambreRepository chambreRepository;
 
+    @Transactional
     public PatientDTO create(PatientDTO dto) {
         Patient patient = PatientMapper.toEntity(dto);
         Patient saved = repository.save(patient);
@@ -37,6 +39,7 @@ public class PatientService {
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
     }
 
+    @Transactional
     public PatientDTO updateChambre(UUID patientId, UUID chambreId) {
         Patient patient = repository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
@@ -49,13 +52,5 @@ public class PatientService {
         return  PatientMapper.toDto(updated);
     }
 
-    public PatientDTO leaveChamber(UUID patientId, UUID chambreId) {
-        Patient patient = repository.findById(patientId)
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
 
-        Chambre chambre = chambreRepository.findById(chambreId)
-                .orElseThrow(() -> new RuntimeException("Chambre not found"));
-
-
-    }
 }

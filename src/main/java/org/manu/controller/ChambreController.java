@@ -55,4 +55,13 @@ public class ChambreController {
         }
         return ResponseEntity.ok(assignments);
     }
+
+    @GetMapping("/{number}")
+    public ResponseEntity<?> getByNumber(@PathVariable String number) {
+        List<ChambreAssignementDTO> chamber = chambreAssignementService.findByNumberChamber(number);
+        if (chamber == null) {
+            return ResponseEntity.status(404).body("Chamber not found");
+        }
+        return  ResponseEntity.ok(chamber);
+    }
 }

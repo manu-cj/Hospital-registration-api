@@ -6,6 +6,7 @@ import org.manu.mappers.ChambreAssignementMapper;
 import org.manu.models.ChambreAssignement;
 import org.manu.repositories.ChambreAssignementRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,6 +18,7 @@ public class ChambreAssignementService {
     private final ChambreAssignementRepository chambreAssignementRepository;
 
 
+    @Transactional
     public ChambreAssignementDTO create(ChambreAssignementDTO dto) {
         boolean alreadyAssigned = chambreAssignementRepository
                 .findByPatientId(dto.getPatient().getId())
@@ -45,6 +47,7 @@ public class ChambreAssignementService {
     //    return ChambreAssignementMapper.toDto(saved);
     //}
 
+    @Transactional
     public ChambreAssignementDTO leaveChamber(UUID patientId) {
         ChambreAssignement active = chambreAssignementRepository.findByPatientIdAndEndDateIsNull(patientId)
                 .orElseThrow(() -> new RuntimeException("active assignment not found for this patient."));
@@ -57,6 +60,13 @@ public class ChambreAssignementService {
 
     public List<ChambreAssignementDTO> findAll() {
         return chambreAssignementRepository.findAll().stream()
+                .map(ChambreAssignementMapper::toDto)
+                .toList();
+    }
+
+    @Transactional
+    public List<ChambreAssignementDTO> findByNumberChamber(String number) {
+        return chambreAssignementRepository.findByChambreNumber(number).stream()
                 .map(ChambreAssignementMapper::toDto)
                 .toList();
     }
