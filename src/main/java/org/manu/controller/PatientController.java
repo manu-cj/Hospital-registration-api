@@ -11,6 +11,7 @@ import org.manu.services.ChambreAssignementService;
 import org.manu.services.ChambreService;
 import org.manu.services.PatientService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -138,11 +139,20 @@ public class PatientController {
         return ResponseEntity.ok(patients);
     }
 
-    @GetMapping("/email/{email}")
+    @GetMapping("/{email}")
     public ResponseEntity<?> getByEmail(@PathVariable String email) {
         PatientDTO patient = patientService.getByEmail(email);
         if (patient == null) {
             return ResponseEntity.status(404).body("Patient not found.");
+        }
+        return ResponseEntity.ok(patient);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
+        PatientDTO patient = patientService.findById(id);
+        if (patient == null) {
+            return ResponseEntity.status(404).body("Patient not found");
         }
         return ResponseEntity.ok(patient);
     }

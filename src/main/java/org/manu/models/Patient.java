@@ -23,6 +23,8 @@ public class Patient {
 
     private String nom;
     private String prenom;
+
+    @Column(unique = true)
     private String email;
 
     @ManyToOne

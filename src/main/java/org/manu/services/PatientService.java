@@ -54,6 +54,7 @@ public class PatientService {
 
     @Transactional
     public List<PatientDTO> getByFirstnameAndLastname(String firstname, String lastname) {
+
         return repository.findByPrenomStartingWithAndNomStartingWith(firstname, lastname).stream()
                 .map(PatientMapper::toDto)
                 .toList();

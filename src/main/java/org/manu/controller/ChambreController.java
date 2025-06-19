@@ -47,6 +47,18 @@ public class ChambreController {
         }
     }
 
+
+    @GetMapping("/{available}")
+    public ResponseEntity<?> getByAvailable(@PathVariable boolean available) {
+        List<ChambreDTO> chamber = chambreService.findByAvailable(available);
+        if (chamber == null) {
+            return ResponseEntity.status(404).body("Not available rooms found");
+        }
+        return ResponseEntity.ok(chamber);
+    }
+
+
+    /* Path for assignment*/
     @GetMapping("/assignment")
     public ResponseEntity<?> getAllAssignment() {
         List<ChambreAssignementDTO> assignments = chambreAssignementService.findAll();
@@ -70,15 +82,6 @@ public class ChambreController {
         List<ChambreAssignementDTO> chamber = chambreAssignementService.findByPatient(id);
         if (chamber == null) {
             return ResponseEntity.status(404).body("We don't have a assignment with this patient");
-        }
-        return ResponseEntity.ok(chamber);
-    }
-
-    @GetMapping("/{available}")
-    public ResponseEntity<?> getByAvailable(@PathVariable boolean available) {
-        List<ChambreDTO> chamber = chambreService.findByAvailable(available);
-        if (chamber == null) {
-            return ResponseEntity.status(404).body("Not available rooms found");
         }
         return ResponseEntity.ok(chamber);
     }
