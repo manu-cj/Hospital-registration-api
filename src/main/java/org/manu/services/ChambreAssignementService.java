@@ -65,5 +65,12 @@ public class ChambreAssignementService {
                 .toList();
     }
 
+    @Transactional
+    public List<ChambreAssignementDTO> findByPatient(UUID id) {
+        return chambreAssignementRepository.findAllByPatientId(id).stream()
+                .map(ChambreAssignementMapper::toDto)
+                .toList();
+    }
+
 
 }

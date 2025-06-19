@@ -64,4 +64,13 @@ public class ChambreController {
         }
         return  ResponseEntity.ok(chamber);
     }
+
+    @GetMapping("/{patientId}")
+    public ResponseEntity<?> getByPatient(@PathVariable UUID id) {
+        List<ChambreAssignementDTO> chamber = chambreAssignementService.findByPatient(id);
+        if (chamber == null) {
+            return ResponseEntity.status(404).body("We don't have a assignment with this patient");
+        }
+        return ResponseEntity.ok(chamber);
+    }
 }

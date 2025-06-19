@@ -16,5 +16,6 @@ public interface ChambreAssignementRepository extends JpaRepository<ChambreAssig
 
     List<ChambreAssignement> findByChambreNumber(String number);
 
+    List<ChambreAssignement> findAllByPatientId(UUID id);
 
 }
